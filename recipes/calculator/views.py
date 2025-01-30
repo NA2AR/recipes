@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
 DATA = {
     'omlet': {
         'яйца, шт': 2,
@@ -20,9 +19,10 @@ DATA = {
 }
 
 def recipe(request, op1):
-    print(DATA[op1])
+    servings = request.GET.get("servings", 1)
+    result_ = {key: value * servings for key, value in DATA[op1].items()}
     context = {
-        'ingr' : DATA[op1],
+        'recipe' : result_,
 }
     return render(request, 'calculator/index.html', context)
 
